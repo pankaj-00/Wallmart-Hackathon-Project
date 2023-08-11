@@ -14,10 +14,10 @@ type TopProductsProps = {
 
 const TopProductsCard = ({ name, price, image }: TopProductsProps) => {
   return (
-    <div className="flex flex-col gap-2 w-fit h-fit p-8 cursor-pointer rounded-lg shadow-[rgba(13,_38,_76,_0.19)_0px_9px_20px]">
-      <div className="flex">
+    <div className="flex flex-col gap-2 w-fit h-fit p-8 cursor-pointer rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl">
+      <div className="flex relative">
         <Image src={image} alt={name} height={190} width={180} />
-        <div className="h-full flex justify-start items-start">
+        <div className="absolute top-2 right-2">
           <HeartIcon className="text-2xl stroke-red-600 cursor-pointer" />
         </div>
       </div>
@@ -25,7 +25,7 @@ const TopProductsCard = ({ name, price, image }: TopProductsProps) => {
       <span className="text-normal font-normal w-[230px] text-[#6D6D6D] text-clip-2">
         {name}
       </span>
-      <button className="h-[30px] w-fit rounded-full border-2 mt-2 border-black flex gap-2 cursor-pointer items-center p-4">
+      <button className="h-[30px] w-fit rounded-full border-2 mt-2 border-black flex gap-2 cursor-pointer items-center p-4 hover:bg-black hover:text-white transition duration-300">
         <PlusIcon />
         Add
       </button>
