@@ -2,26 +2,26 @@ export const categoryData = [
   {
     name: "Grocery",
     bgImage: "/groceryBg.png",
-    bgColor: "#FF9B30",
+    bgColor: 'customOrange',
   },
   {
     name: "Grocery",
     bgImage: "/groceryBg.png",
-    bgColor: "#FF9B30",
+    bgColor: 'customOrange',
   },
   {
     name: "Grocery",
     bgImage: "/groceryBg.png",
-    bgColor: "#FF9B30",
+    bgColor: 'customOrange',
   },
   {
     name: "Grocery",
     bgImage: "/groceryBg.png",
-    bgColor: "#FF9B30",
+    bgColor: 'customOrange',
   },
   {
     name: "Grocery",
     bgImage: "/groceryBg.png",
-    bgColor: "#FF9B30",
+    bgColor: 'customOrange',
   },
 ];
