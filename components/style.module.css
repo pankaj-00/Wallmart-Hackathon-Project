@@ -1,0 +1,16 @@
+.popup_container {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.popup_container.active {
+  opacity: 1;
+}
+
+.animation_container {
+  display: flex;
+  justify-content: center;
+  height: 100px;
+  align-items: center;
+  margin-bottom: 20px;
+}

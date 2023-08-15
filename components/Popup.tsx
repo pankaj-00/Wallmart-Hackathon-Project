@@ -1,9 +1,8 @@
 import React from "react";
 import icons from "@/icons";
-import Recorder from "./Recorder";
 import SpeechToText from "./SpeechToText";
 
-const { CloseIcon } = icons;
+const { CloseIcon, PhoneIcon } = icons;
 
 interface PopupProps {
   showPopup: boolean;
@@ -15,16 +14,20 @@ const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup }) => {
     <div>
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white p-6 rounded-lg shadow-lg relative h-1/2">
-            <button
-              className="absolute top-2 right-2 text-gray-500 hover:text-gray-700"
-              onClick={togglePopup}
-            >
-              <CloseIcon className="text-xl" />
-            </button>
-            <h2 className="text-xl font-semibold mb-2">Talk with Us</h2>
-            {/* <Recorder /> */}
-            < SpeechToText />
+          <div className="bg-white shadow-lg relative h-1/2 w-1/5 rounded-3xl">
+            <div className="bg-[#0072E1] text-white text-center py-4 rounded-t-3xl">
+              <button
+                className="absolute top-3 right-2 text-gray-200 hover:text-gray-400"
+                onClick={togglePopup}
+              >
+                <CloseIcon className="text-4xl" />
+              </button>
+              <PhoneIcon className="absolute top-5 left-2 text-2xl ml-2" />
+              <h2 className="text-2xl font-normal tracking-widest">
+                TALK WITH US
+              </h2>
+            </div>
+            <SpeechToText />
           </div>
         </div>
       )}
