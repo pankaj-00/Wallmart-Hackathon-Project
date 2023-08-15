@@ -50,6 +50,6 @@ export async function completeResult() {
     let result: string = "Default Message";
     const buffer = readFileSync("src/utils/result.json")
     result = JSON.parse(buffer.toString()).output;
-    console.log(result);
+    console.log("Final Result: ", result);
     return result;
 }

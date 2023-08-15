@@ -17,16 +17,8 @@ load_dotenv()
 
 def getPrompt():
     # create our examples
-    examples = [
-        {
-            "query": "Hello",
-            "answer": "Hello, welcome to Walmart customer service. How can I help you?"
-        }, {
-            "query": "How can I order any product from the walmart?",
-            "answer": """For availing our services, you can visit walmart.com on a web browser or install our app through app store or the playstore.
-            You can select a product you want to order and and click the buy now button below the product description and then follow the instructions specified on the app or the webpage"""
-        }
-    ]
+    json = open('src/data/faqs.json')
+    examples = json.load(json)
 
     # create a example template
     example_template = """
@@ -43,11 +35,9 @@ def getPrompt():
     # now break our previous prompt into a prefix and suffix
     # the prefix is our instructions
     prefix = """You are a polite assistant and talk in a very straight to the point manner . 
-    The user's query will and should be in the context of Walmart company .You will ask the 
-    user to only ask queries related to walmart as you have to assume that your knowledge about 
-    Walmart is not enough to  provide a solution for the user . I encourage you to use the tools 
-    you have at your disposal .  You will also compulsorily answer in one sentence and no longer.
-    Here are some examples of conversation between the assistant and the customer: 
+    You will ask the user to only ask queries related to walmart. You can make use of the tools given
+    only when necessary otherwise refer to the examples given below. You will also compulsorily answer in one sentence 
+    and no longer. Here are some examples of conversation between the assistant and the customer: 
     """
 
     # and the suffix our user input and output indicator
@@ -68,46 +58,79 @@ def getPrompt():
     return few_shot_prompt_template
 
 def getDB():
-    return FAISS.load_local("src/data/faiss_index", gpt4allemb)
+    return {
+        "searchDB": FAISS.load_local("src/data/walmart_index", gpt4allemb),
+        "productDB": FAISS.load_local("src/data/product_index", gpt4allemb),
+        "policiesDB": FAISS.load_local("src/data/policies_index", gpt4allemb)
+    }
 
 def getconvAgent():
     def walmartSearch(query: str) -> str:
-        docs = db.similarity_search(query, 2)
+        docs = searchDB.similarity_search(query, 2)
+        return docs[0].page_content+docs[1].page_content
+
+    def walmartProduct(query: str) -> str:
+        docs = productDB.similarity_search(query, 2)
+        return docs[0].page_content+docs[1].page_content
+
+    def walmartPolicies(query: str) -> str:
+        docs = policiesDB.similarity_search(query, 2)
         return docs[0].page_content
+
+    # Set of tools for the conversational agent.
     tools = [
-    Tool(
-        name="Search",
-        func=walmartSearch,
-        description='Search functionality for walmart related queries'
+        Tool(
+            name="Walmart Information",
+            func=walmartSearch,
+            description='Use this tool to get information related Walmart as a company.'
+        ),
+        Tool(
+            name="Walmart Products",
+            func=walmartProduct,
+            description="Use this tool to get information related to the products sold by Walmart."
+        ),
+        Tool(
+            name="Walmart Policies",
+            func=walmartPolicies,
+            description="Use this tool to get information related to the return policies, coupon policies and price-match policies."
         ),
     ]
     conversationalAgent = initialize_agent(
         agent='zero-shot-react-description', 
         tools=tools, 
         llm=llm,
-        max_iterations=2,
+        # max_iterations=3,
         handle_parsing_errors=True,
+        verbose = True
     )
     
     return conversationalAgent
+
 
 OPEN_AI_API_KEY = os.environ.get('OPEN_AI_API_KEY_SP')
 llm = OpenAI(openai_api_key = OPEN_AI_API_KEY)
 gpt4allemb =  GPT4AllEmbeddings()
 db = getDB()
+searchDB = db['searchDB']
+productDB = db['productDB']
+policiesDB = db['policiesDB']
+
 
 #Instantiating OpenAI model
 def mainFunc():
     convAgent = getconvAgent()
     promptTemplate = getPrompt()
-    # sampleQuery = "Who is the founder of Walmart?"
+    # sampleQuery = "My order was not delivered. Can you help me track?"
     result = convAgent(promptTemplate.format(query = sys.argv[2]))
+    # result = convAgent(promptTemplate.format(query = sampleQuery))
     json_object_result = json.dumps(result, indent=4)
     with open(sys.argv[3], "w") as outfile:
         outfile.write(json_object_result)
+    print(json_object_result)    
+    
     
 
 if sys.argv[1] == 'mainFunc':
     mainFunc()
-    
-# sys.stdout.flush()
+# mainFunc()
+sys.stdout.flush()
