@@ -41,6 +41,8 @@ export default function TopProducts() {
       const res = await fetch(
         "http://localhost:3000/api/products/top-products"
       );
+
+      console.log(res);
       const products = await res.json();
       setTopProducts(products.products);
     };
@@ -55,10 +57,10 @@ export default function TopProducts() {
       </span>
       <div className="grid grid-cols-4 gap-14 gap-x-20 ">
         {topProducts &&
-          topProducts.map((product: Product) => {
+          topProducts.map((product: Product, ind: Number) => { 
             return (
               <TopProductsCard
-                key={product.name}
+                key={product.name + ind}
                 name={product.name}
                 image={product.image}
                 price={product.price}

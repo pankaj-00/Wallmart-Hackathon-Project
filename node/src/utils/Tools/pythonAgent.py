@@ -17,8 +17,41 @@ load_dotenv()
 
 def getPrompt():
     # create our examples
-    json = open('src/data/faqs.json')
-    examples = json.load(json)
+    examples = [
+    {
+        "query": "Hello",
+        "answer": "Hello, welcome to Walmart customer service. How can I help you?"
+    },
+    {
+        "query": "How can I order any product from the walmart?",
+        "answer": "For availing our services, you can visit walmart.com on a web browser or install our app through app store or the playstore. You can select a product you want to order and and click the buy now button below the product description and then follow the instructions specified on the app or the webpage."
+    },
+    {
+        "query": "My order was not delivered. Can you help me track it?",
+        "answer": "Oh we are so sorry for the inconvenience. Can you give me the order number so I can help you track the order."
+    },
+    {
+        "query": "What is the process for returning an item to Walmart?",
+        "answer": "You can return an item by checking the options tab under 'Your orders' on the walmart website or app and then opting for 'return an item'."
+    },
+    {
+        "query": "What are Walmart's customer service hours?",
+        "answer": "Normally people call me AI but you can call me anytime."
+    },
+    {
+        "query": "How do I check the status of an online order?",
+        "answer": "You can check you status of an order by visiting your profile section and then 'My orders'."
+    },
+    {
+        "query": "What should I do if I received a damaged product from Walmart?",
+        "answer": "Please give me your order number so I can generate a product replacement ticket for you."
+    },
+    {
+        "query": "Here is my order number #4567112QA. What should I do next?",
+        "answer": "I have successfully raised a ticket regarding this issue with ticket no ##434567112QA."
+    },
+    ]
+
 
     # create a example template
     example_template = """
@@ -120,7 +153,7 @@ policiesDB = db['policiesDB']
 def mainFunc():
     convAgent = getconvAgent()
     promptTemplate = getPrompt()
-    # sampleQuery = "My order was not delivered. Can you help me track?"
+    # sampleQuery = "Can I cancel my order at walmart?"
     result = convAgent(promptTemplate.format(query = sys.argv[2]))
     # result = convAgent(promptTemplate.format(query = sampleQuery))
     json_object_result = json.dumps(result, indent=4)

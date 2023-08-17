@@ -9,7 +9,7 @@ async function convAI(req:Request, res:Response){
     const result = await completeResult();
     console.log("Sending results...");
     console.log("Results sent");
-    res.end(result);
+    res.send({result:result});
 }
 
 export default convAI;

@@ -29,10 +29,12 @@ const Categories = () => {
         CATEGORIES
       </span>
       <div className="flex justify-between w-full">
-        {categoryData.map((category) => {
+        {categoryData.map((category, index) => {
           const { name, bgColor, bgImage } = category;
           return (
+          <div key={index}>
             <CategoryCard name={name} bgColor={bgColor} bgImage={bgImage} />
+          </div>
           );
         })}
       </div>
