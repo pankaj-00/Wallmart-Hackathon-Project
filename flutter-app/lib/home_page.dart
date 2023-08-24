@@ -1,5 +1,7 @@
+import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:appapap/pallete.dart';
 import 'package:flutter/material.dart';
+import 'package:speech_to_text/speech_to_text.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -8,6 +10,44 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final speechToText = SpeechToText();
+  String lastWords = '';
+
+  @override
+  void initState() {
+    super.initState();
+    initSpeechToText();
+  }
+
+  Future<void> initSpeechToText() async {
+    await speechToText.initialize();
+    setState(() {
+      print("inited");
+    });
+  }
+
+  void onSpeechResult(SpeechRecognitionResult result) {
+    setState(() {
+      lastWords = result.recognizedWords;
+    });
+  }
+
+  Future<void> startListening() async {
+    await speechToText.listen(onResult: onSpeechResult);
+    setState(() {});
+  }
+
+  Future<void> stopListening() async {
+    await speechToText.stop();
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    speechToText.stop();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +106,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Column(
@@ -86,16 +126,28 @@ class _HomePageState extends State<HomePage> {
               ),
             )
           ],
-        )
+        ),
+        Text(lastWords)
       ]),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Pallete.firstSuggestionBoxColor,
-        onPressed: () {},
+        onPressed: () async {
+          if (await speechToText.hasPermission && speechToText.isNotListening) {
+            // print('1');
+            startListening();
+            print('1');
+          } else if (speechToText.isListening) {
+            stopListening();
+            print('2');
+            setState(() {});
+          } else {
+            initSpeechToText();
+            print('3');
+          }
+        },
         child: const Icon(Icons.mic),
-
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      flo
     );
   }
 }
