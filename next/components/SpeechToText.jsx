@@ -70,8 +70,9 @@ const SpeechToText = () => {
   useEffect(() => {
     if (!isListening && transcript) {
       async function getResponse() {
-        const response = await llmResponse();
-        setReply((await response.json()).result);
+        // const response = await llmResponse();
+        // setReply((await response.json()).result);
+        setReply("this is reply");
       }
       getResponse();
     }
