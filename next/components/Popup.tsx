@@ -1,6 +1,7 @@
 import React from "react";
 import icons from "@/icons";
 import SpeechToText from "./SpeechToText";
+import { motion, AnimatePresence } from "framer-motion";
 
 const { CloseIcon, PhoneIcon } = icons;
 
@@ -12,25 +13,33 @@ interface PopupProps {
 const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup }) => {
   return (
     <div>
-      {showPopup && (
-        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white shadow-lg relative max-h-fit w-1/5 rounded-3xl">
-            <div className="bg-[#0072E1] text-white text-center py-4 rounded-t-3xl">
-              <button
-                className="absolute top-3 right-2 text-gray-200 hover:text-gray-400"
-                onClick={togglePopup}
-              >
-                <CloseIcon className="text-4xl" />
-              </button>
-              <PhoneIcon className="absolute top-5 left-2 text-2xl ml-2" />
-              <h2 className="text-2xl font-normal tracking-widest">
-                TALK WITH US
-              </h2>
-            </div>
-            <SpeechToText />
+      <AnimatePresence>
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+            <motion.div
+              initial={{ opacity: 1, scaleY: 0, transformOrigin: "center" }}
+              animate={{ opacity: 1, scaleY: 1 }} 
+              exit={{ opacity: 0, scaleY: 0 }}
+              transition={{ duration: 0.3 }}
+              className="bg-white shadow-lg relative h-1/2 w-1/5 rounded-3xl"
+            >
+              <div className="bg-[#0072E1] text-white text-center py-4 rounded-t-3xl">
+                <button
+                  className="absolute top-3 right-2 text-gray-200 hover:text-gray-400"
+                  onClick={togglePopup}
+                >
+                  <CloseIcon className="text-4xl" />
+                </button>
+                <PhoneIcon className="absolute top-5 left-2 text-2xl ml-2" />
+                <h2 className="text-2xl font-normal tracking-widest">
+                  TALK WITH US
+                </h2>
+              </div>
+              <SpeechToText />
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </div>
   );
 };
