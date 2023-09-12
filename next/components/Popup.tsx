@@ -14,7 +14,7 @@ const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup }) => {
     <div>
       {showPopup && (
         <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-          <div className="bg-white shadow-lg relative h-1/2 w-1/5 rounded-3xl">
+          <div className="bg-white shadow-lg relative max-h-fit w-1/5 rounded-3xl">
             <div className="bg-[#0072E1] text-white text-center py-4 rounded-t-3xl">
               <button
                 className="absolute top-3 right-2 text-gray-200 hover:text-gray-400"

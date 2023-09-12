@@ -153,7 +153,7 @@ policiesDB = db['policiesDB']
 def mainFunc():
     convAgent = getconvAgent()
     promptTemplate = getPrompt()
-    # sampleQuery = "Can I cancel my order at walmart?"
+    # sampleQuery = "How to place a new order?"
     result = convAgent(promptTemplate.format(query = sys.argv[2]))
     # result = convAgent(promptTemplate.format(query = sampleQuery))
     json_object_result = json.dumps(result, indent=4)
