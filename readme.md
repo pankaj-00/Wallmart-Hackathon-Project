@@ -7,13 +7,16 @@ Addressing this challenge, we are proud to introduce our Conversational AI solut
 For this specific illustration, we scraped operational data from publicly available sources of Walmart. We used Few-shot learning method to train our LLM model using this data, ensuring an accurate and contextually relevant AI-driven conversation.
 
 Here is a demo of the application which was submitted to in the Sparkathon by Walmart hackathon.
-![demo](assets/Sparkathon_Demo.mp4)
+
+https://github.com/pankaj-00/convAI/assets/96481913/d9b16d93-67fa-48de-b0ac-3aea13dc0f60
+
+
 ## Index
 
-- Tech Stack
-- Data Indexes
-- Internal Working
-- References
+- [Tech Stack](#tech-stack)
+- [Data Indexes](#data-indexes)
+- [Internal Working](#internal-working)
+- [References](#references)
 
 ## Tech Stack
 
@@ -53,6 +56,6 @@ Here is a demo of the application which was submitted to in the Sparkathon by Wa
 ![Flask_Internal](assets/Internal_Flask_Diagram_ConvAI.png)
 
 
-## Reference
+## References
 - [Langchain Docs](https://docs.langchain.com/docs/)
 - [Web Speech API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Speech_API)
