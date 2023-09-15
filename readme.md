@@ -10,10 +10,10 @@ Here is a demo of the application which was submitted to in the Sparkathon by Wa
 ![demo](assets/Sparkathon_Demo.mp4)
 ## Index
 
-- Tech Stack
-- Data Indexes
-- Internal Working
-- References
+- [Tech Stack](#tech-stack)
+- [Data Indexes](#data-indexes)
+- [Internal Working](#internal-working)
+- [References](#references)
 
 ## Tech Stack
 
