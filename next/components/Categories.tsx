@@ -11,14 +11,14 @@ type CategoryCardProps = {
 
 const CategoryCard = ({ name, bgImage, bgColor }: CategoryCardProps) => {
   return (
-    <Link href={`/${name}`}>
+    // <Link href={`/${name}`}>
       <div
         className={`flex flex-col bg-${bgColor} rounded-2xl cursor-pointer p-4 gap-2`}
       >
         <Image src={bgImage} alt="category-image" width={150} height={150} />
         <span className="text-lg text-center font-normal">{name}</span>
       </div>
-    </Link>
+    // </Link>
   );
 };
 
