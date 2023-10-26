@@ -1,5 +1,6 @@
 import sys
-sys.path.insert(0, '/home/yash/ConvAI/flask/services')
+import os
+sys.path.insert(0, os.getcwd() + '/services')
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
 from fewShotAgent import mainFunc
