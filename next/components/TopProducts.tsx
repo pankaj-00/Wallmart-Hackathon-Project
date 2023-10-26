@@ -3,6 +3,7 @@ import { Product } from "@/common.types";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import icons from "@/icons";
+import { productsData } from "@/constants";
 
 const { HeartIcon, PlusIcon } = icons;
 
@@ -34,21 +35,21 @@ const TopProductsCard = ({ name, price, image }: TopProductsProps) => {
 };
 
 export default function TopProducts() {
-  const [topProducts, setTopProducts] = useState([]);
+  // const [topProducts, setTopProducts] = useState([]);
 
-  useEffect(() => {
-    const fetchTopProducts = async () => {
-      const res = await fetch(
-        "http://localhost:3000/api/products/top-products"
-      );
+  // useEffect(() => {
+  //   const fetchTopProducts = async () => {
+  //     const res = await fetch(
+  //       "http://localhost:3000/api/products/top-products"
+  //     );
 
-      console.log(res);
-      const products = await res.json();
-      setTopProducts(products.products);
-    };
+  //     console.log(res);
+  //     const products = await res.json();
+  //     setTopProducts(products.products);
+  //   };
 
-    fetchTopProducts();
-  }, []);
+  //   fetchTopProducts();
+  // }, []);
 
   return (
     <div className="flex flex-col gap-10 items-center">
@@ -56,8 +57,8 @@ export default function TopProducts() {
         TOP PRODUCTS
       </span>
       <div className="grid grid-cols-4 gap-14 gap-x-20 ">
-        {topProducts &&
-          topProducts.map((product: Product, ind: Number) => { 
+        {productsData &&
+          productsData.map((product: Product, ind: Number) => { 
             return (
               <TopProductsCard
                 key={product.name + ind}
@@ -67,6 +68,17 @@ export default function TopProducts() {
               />
             );
           })}
+        {/* {topProducts &&
+          topProducts.map((product: Product, ind: Number) => { 
+            return (
+              <TopProductsCard
+                key={product.name + ind}
+                name={product.name}
+                image={product.image}
+                price={product.price}
+              />
+            );
+          })} */}
       </div>
     </div>
   );
