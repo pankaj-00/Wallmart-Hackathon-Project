@@ -1,7 +1,7 @@
+import sys
+sys.path.insert(0, '/home/yash/ConvAI/flask/services')
 from flask import Flask, request, jsonify
 from flask_cors import CORS, cross_origin
-import sys
-sys.path.insert(0, '/home/yash/Wallmart-Hackathon-Project/flask/services')
 from fewShotAgent import mainFunc
 
 # Initializing flask app

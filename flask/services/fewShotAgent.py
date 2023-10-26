@@ -141,7 +141,7 @@ def getconvAgent():
     return conversationalAgent
 
 #Instantiation of OpenAI model
-OPEN_AI_API_KEY = os.environ.get('OPEN_AI_API_KEY_SP')
+OPEN_AI_API_KEY = os.environ.get('OPEN_AI_API_KEY')
 llm = OpenAI(openai_api_key = OPEN_AI_API_KEY)
 print("LLM ready!")
 
