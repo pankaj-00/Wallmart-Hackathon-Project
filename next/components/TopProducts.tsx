@@ -52,11 +52,11 @@ export default function TopProducts() {
   // }, []);
 
   return (
-    <div className="flex flex-col gap-10 items-center">
+    <div className="flex flex-col gap-10 items-center w-4/5">
       <span className="text-2xl font-normal tracking-widest mb-6">
         TOP PRODUCTS
       </span>
-      <div className="grid grid-cols-4 gap-14 gap-x-20 ">
+      <div className="grid grid-cols-4 gap-14 gap-x-20">
         {productsData &&
           productsData.map((product: Product, ind: Number) => { 
             return (

@@ -5,23 +5,23 @@ export const categoryData = [
     bgColor: 'customOrange',
   },
   {
-    name: "Grocery",
-    bgImage: "/groceryBg.png",
+    name: "Electronics",
+    bgImage: "/electronics.png",
     bgColor: 'customOrange',
   },
   {
-    name: "Grocery",
-    bgImage: "/groceryBg.png",
+    name: "Toys",
+    bgImage: "/toys.png",
     bgColor: 'customOrange',
   },
   {
-    name: "Grocery",
-    bgImage: "/groceryBg.png",
+    name: "Books",
+    bgImage: "/books.png",
     bgColor: 'customOrange',
   },
   {
-    name: "Grocery",
-    bgImage: "/groceryBg.png",
+    name: "Sports",
+    bgImage: "/sports.png",
     bgColor: 'customOrange',
   },
 ];
