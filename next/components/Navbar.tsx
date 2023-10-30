@@ -1,9 +1,41 @@
+'use client'
+
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import icons from "../icons";
 import Link from "next/link";
-const { DownArrow, SearchIcon } = icons;
-const Navbar = () => {
+import { Database } from "../@types/supabase";
+import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const Navbar = ({ session }: { session: Session | null }) => {
+
+  const { DownArrow, SearchIcon } = icons;
+  const supabase = createClientComponentClient<Database>()
+  const [avatar, setAvatar] = useState("")
+  const user = session?.user;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const {
+        data: { session },
+      } = await supabase.auth.getSession()
+      const { data, error } = await supabase
+      .from('profiles')
+      .select('avatar_url')
+      .eq('id', user?.id as string)
+      .single();
+      
+      if (error) {
+        console.error('Error fetching data:', error);
+      } else {
+        setAvatar(data?.avatar_url ? data.avatar_url: "/tempProfile.png")
+        
+      }
+    };
+  
+    fetchData()
+  }, [avatar]);
+
   return (
     <nav className="flex w-full justify-center items-center py-8 mb-16">
       <div className="flex justify-between w-[90%] gap-12 items-center">
@@ -24,19 +56,19 @@ const Navbar = () => {
           />
           <SearchIcon className="text-lg text-gray-600 absolute right-6" />
         </div>
-        <div className="flex w-[150px] h-fit bg-gray-200 rounded-full cursor-pointer">
-          <Image
-            src="/tempProfile.png"
-            alt="tempprofile"
-            height={50}
-            width={50}
-            className="rounded-full"
-          />
-          <div className="flex flex-col items-start p-2">
-            <span className="text-[8px] font-normal">Hello</span>
-            <span className="text-xl font-semibold">Sign In</span>
-          </div>
-        </div>
+        {avatar ? (
+            <Image
+              src={avatar}
+              alt="tempProfile"
+              height={50}
+              width={50}
+              className="rounded-full cursor-pointer"
+            />
+        ) : (
+          <Link href="/auth/login">
+            <span className="font-bold text-xl cursor-pointer">Login</span>
+          </Link>
+        )}
         <Image
           src="/cart.png"
           alt="cart"
