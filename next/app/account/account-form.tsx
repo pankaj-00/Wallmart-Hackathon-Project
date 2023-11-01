@@ -70,46 +70,75 @@ export default function AccountForm({ session }: { session: Session | null }) {
   }
 
   return (
-    <div className="form-widget">
-      <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={session?.user.email} disabled />
-      </div>
-      <div>
-        <label htmlFor="fullName">Full Name</label>
-        <input
-          id="fullName"
-          type="text"
-          value={fullname || ''}
-          onChange={(e) => setFullname(e.target.value)}
-        />
-      </div>
-      <div>
-        <label htmlFor="username">Username</label>
-        <input
-          id="username"
-          type="text"
-          value={username || ''}
-          onChange={(e) => setUsername(e.target.value)}
-        />
-      </div>
+    <div className="min-h-screen flex items-center justify-center bg-slate-200">
+      <div className="border flex flex-row w-3/5 bg-white rounded-full">
+        <div className="flex flex-col justify-center w-1/2 bg-[url('/profileBg.png')]">
+          <img src={avatar_url || ''} alt="user_avatar" className="w-16 h-16 rounded-full mx-auto" />
+          <h2 className='text-center font-bold mx-auto text-white flex flex-col'>
+            {fullname ? (
+              fullname.split(" ").map((name, index) => (
+                <span key={index}>{name}</span>
+              ))
+            ) : null}
+          </h2>
+        </div>
 
-      <div>
-        <button
-          className="button primary block"
-          onClick={() => updateProfile({ fullname, username, avatar_url })}
-          disabled={loading}
-        >
-          {loading ? 'Loading ...' : 'Update'}
-        </button>
-      </div>
+        <div className="w-1/2">
+          <div className='bg-[#0072E1] text-white text-center py-4'>
+            <h2 className='text-2xl font-semibold tracking-widest'>
+              PROFILE
+            </h2>
+          </div>
+          <div className="px-8">
+            <div className='m-8'>
+              <label className='font-bold' htmlFor="fullName">Full Name</label>
+              <input
+                id="fullName"
+                type="text"
+                value={fullname || ''}
+                onChange={(e) => setFullname(e.target.value)}
+                className="border rounded-lg p-2 w-full"
+              />
+            </div>
+            <div className='m-8'>
+              <label className='font-bold' htmlFor="username">Username</label>
+              <input
+                id="username"
+                type="text"
+                value={username || ''}
+                onChange={(e) => setUsername(e.target.value)}
+                className="border rounded-lg p-2 w-full"
+              />
+            </div>
+            <div className='m-8'>
+              <label className='font-bold' htmlFor="email">Email</label>
+              <input
+                id="email"
+                type="mail"
+                value={session?.user.email}
+                className="border rounded-lg p-2 w-full"
+                disabled
+              />
+            </div>
 
-      <div>
-        <form action="/auth/logout" method="post">
-          <button className="button block" type="submit">
-            Sign out
-          </button>
-        </form>
+            <div>
+              <button
+                className={`tracking-widest bg-[#8CEF7C] px-4 py-2 rounded hover:bg-[#6ce15a]`}
+                onClick={() => updateProfile({ fullname, username, avatar_url })}
+              >
+                UPDATE
+              </button>
+            </div>
+
+            <div>
+              <form action="/auth/logout" method="post">
+                <button className="bg-red-500 text-white px-4 py-2 rounded hover-bg-red-600" type="submit">
+                  Sign out
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )
