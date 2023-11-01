@@ -37,7 +37,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
   }, [avatar]);
 
   return (
-    <nav className="flex w-full justify-center items-center py-8 mb-16">
+    <nav className="flex w-full justify-center items-center py-8">
       <div className="flex justify-between w-[90%] gap-12 items-center">
         <Link href="/">
           <Image src="/tempLogo.png" alt="logo" width={75} height={75} />

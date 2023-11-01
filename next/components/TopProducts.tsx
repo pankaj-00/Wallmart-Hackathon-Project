@@ -15,7 +15,7 @@ type TopProductsProps = {
 
 const TopProductsCard = ({ name, price, image }: TopProductsProps) => {
   return (
-    <div className="flex flex-col gap-2 w-fit h-fit p-8 cursor-pointer rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl">
+    <div className="flex flex-col gap-2 w-fit h-fit p-4 cursor-pointer rounded-lg shadow-lg transition duration-300 transform hover:scale-105 hover:shadow-xl">
       <div className="flex relative">
         <Image src={image} alt={name} height={190} width={180} />
         <div className="absolute top-2 right-2">
@@ -52,11 +52,12 @@ export default function TopProducts() {
   // }, []);
 
   return (
-    <div className="flex flex-col gap-10 items-center w-4/5">
+    <div className="flex flex-col gap-10 items-center w-full md:w-4/5 border">
       <span className="text-2xl font-normal tracking-widest mb-6">
         TOP PRODUCTS
       </span>
-      <div className="grid grid-cols-4 gap-14 gap-x-20">
+      {/* <div className="grid grid-cols-4 gap-10"> */}
+      <div className="flex flex-wrap justify-around">
         {productsData &&
           productsData.map((product: Product, ind: Number) => { 
             return (

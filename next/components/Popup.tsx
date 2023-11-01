@@ -21,7 +21,7 @@ const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup }) => {
               animate={{ opacity: 1, scaleY: 1 }} 
               exit={{ opacity: 0, scaleY: 0 }}
               transition={{ duration: 0.3 }}
-              className="bg-white shadow-lg relative h-1/2 w-1/5 rounded-3xl"
+              className="bg-white shadow-lg relative h-fit w-1/5 rounded-3xl"
             >
               <div className="bg-[#0072E1] text-white text-center py-4 rounded-t-3xl">
                 <button
