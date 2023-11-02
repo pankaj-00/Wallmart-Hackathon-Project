@@ -36,43 +36,43 @@ export const productsData = [
   {
     name: "Apple iPhone 15 Pro Max (256 GB) - Natural Titanium",
     image:
-      "/iphone.jpg",
+      "/iphone.png",
       price: 4999.99,
     },
     {
-    name: "Go Vegan Pure Almond & Cashew - 500gm (250gm*2) kaju...",
+    name: "Go Vegan Pure Almond & Cashew - 500gm (250gm*2)...",
     image:
-    "/kajuBadam.jpg",
+    "/kajuBadam.png",
     price: 499.99,
   },
   {
     name: "Indias Most Fearless 2: More Military Stories of Unima...",
     image:
-      "/mostFearless1.jpg",
+      "/mostFearless1.png",
     price: 499.99,
   },
   {
     name: "Indias Most Fearless :True Stories of Modern Military ...",
     image:
-      "/mostFearless2.jpg",
+      "/mostFearless2.png",
     price: 499.99,
   },
   {
     name: "Nerf Alpha Strike Flyte CS-10 Motorised Blaster - 10-D...",
     image:
-      "/nerfgun.jpg",
+      "/nerfgun.png",
     price: 499.99,
   },
   {
     name: "Hi-Tech® Pioneer Bot Robot Colorful Lights and Music ...",
     image:
-      "/robot.jpg",
+      "/robot.png",
     price: 499.99,
   },
   {
     name: "Stag Iconic Club Professional Table Tennis (T.T) Set...",
     image:
-      "/tabletennis.jpg",
+      "/tabletennis.png",
     price: 499.99,
   },
 ]
