@@ -8,11 +8,16 @@ import { Database } from "../@types/supabase";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 const Navbar = ({ session }: { session: Session | null }) => {
-
+  const [isDropdownOpen, setDropdownOpen] = useState(false);
   const { DownArrow, SearchIcon } = icons;
   const supabase = createClientComponentClient<Database>()
   const [avatar, setAvatar] = useState("")
   const user = session?.user;
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!isDropdownOpen);
+    console.log("dropped");
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,19 +25,19 @@ const Navbar = ({ session }: { session: Session | null }) => {
         data: { session },
       } = await supabase.auth.getSession()
       const { data, error } = await supabase
-      .from('profiles')
-      .select('avatar_url')
-      .eq('id', user?.id as string)
-      .single();
-      
+        .from('profiles')
+        .select('avatar_url')
+        .eq('id', user?.id as string)
+        .single();
+
       if (error) {
         console.error('Error fetching data:', error);
       } else {
-        setAvatar(data?.avatar_url ? data.avatar_url: "/tempProfile.png")
-        
+        setAvatar(data?.avatar_url ? data.avatar_url : "/tempProfile.png")
+
       }
     };
-  
+
     fetchData()
   }, [avatar]);
 
@@ -56,7 +61,9 @@ const Navbar = ({ session }: { session: Session | null }) => {
           />
           <SearchIcon className="text-lg text-gray-600 absolute right-6" />
         </div>
+
         {avatar ? (
+          <div className="relative" onClick={toggleDropdown}>
             <Image
               src={avatar}
               alt="tempProfile"
@@ -64,6 +71,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
               width={50}
               className="rounded-full cursor-pointer"
             />
+          </div>
         ) : (
           <Link href="/auth/login">
             <span className="font-bold text-xl cursor-pointer">Login</span>
@@ -76,7 +84,19 @@ const Navbar = ({ session }: { session: Session | null }) => {
           height={32}
           className="cursor-pointer"
         />
+        {isDropdownOpen && (
+          <div className="absolute top-24 right-10 w-48 bg-white rounded-lg shadow-lg">
+            <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+              <Link href="/account" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" role="menuitem">Edit Profile</Link>
+              <Link href="/auth/logout" className="block px-4 py-2 text-gray-700 hover:bg-gray-100" role="menuitem">Logout</Link>
+            </div>
+          </div>
+        )}
+
+        
       </div>
+
+
     </nav>
   );
 };
