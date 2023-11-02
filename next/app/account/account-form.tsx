@@ -71,7 +71,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-slate-200">
-      <div className="border flex flex-row w-3/5 bg-white rounded-full">
+      <div className="border flex flex-row w-3/5 bg-white rounded">
         <div className="flex flex-col justify-center w-1/2 bg-[url('/profileBg.png')]">
           <img src={avatar_url || ''} alt="user_avatar" className="w-16 h-16 rounded-full mx-auto" />
           <h2 className='text-center font-bold mx-auto text-white flex flex-col'>
@@ -121,19 +121,19 @@ export default function AccountForm({ session }: { session: Session | null }) {
               />
             </div>
 
-            <div>
+            <div className='my-2 flex justify-center'>
               <button
-                className={`tracking-widest bg-[#8CEF7C] px-4 py-2 rounded hover:bg-[#6ce15a]`}
+                className={`tracking-widest bg-[#8CEF7C] font-bold px-4 py-2 rounded hover:bg-[#6ce15a]`}
                 onClick={() => updateProfile({ fullname, username, avatar_url })}
               >
                 UPDATE
               </button>
             </div>
 
-            <div>
+            <div className='my-4 flex justify-center'>
               <form action="/auth/logout" method="post">
-                <button className="bg-red-500 text-white px-4 py-2 rounded hover-bg-red-600" type="submit">
-                  Sign out
+                <button className="tracking-widest px-4 font-bold py-2 rounded bg-red-500 text-white hover:bg-red-700" type="submit">
+                  SIGN OUT
                 </button>
               </form>
             </div>
