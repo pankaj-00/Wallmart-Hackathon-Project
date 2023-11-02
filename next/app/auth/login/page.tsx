@@ -25,7 +25,7 @@ export default function AuthForm() {
         },
       }}
       theme="dark"
-      showLinks={false}
+      showLinks={true}
       redirectTo="http://localhost:3000/auth/callback"
     />
     </div>
