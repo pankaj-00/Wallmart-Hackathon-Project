@@ -93,9 +93,9 @@ def getPrompt():
 def getDB():
     INDEX_DIR = os.environ.get('INDEX_DIR')
     return {
-        "searchDB": FAISS.load_local(INDEX_DIR + "walmart_index", gpt4allemb),
-        "productDB": FAISS.load_local(INDEX_DIR + "product_index", gpt4allemb),
-        "policiesDB": FAISS.load_local(INDEX_DIR + "policies_index", gpt4allemb)
+        "searchDB": FAISS.load_local(os.getcwd() + "/services/data/walmart_index", gpt4allemb),
+        "productDB": FAISS.load_local(os.getcwd() + "/services/data/product_index", gpt4allemb),
+        "policiesDB": FAISS.load_local(os.getcwd() + "/services/data/policies_index", gpt4allemb)
     }
 
 def getconvAgent():
