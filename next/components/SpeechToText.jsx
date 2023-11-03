@@ -14,6 +14,20 @@ const SpeechToText = () => {
   // Animated GIF for MIC isListening state
   const gifUrl = "https://i.imgur.com/cLzMXgm.gif";
 
+  const supabase = createClient(process.env['NEXT_PUBLIC_SUPABASE_URL'], process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']);
+
+  // Check if the user is authenticated
+  const user = supabase.auth.user();
+  
+  if (user) {
+    console.log('User is authenticated');
+    console.log('User ID:', user.id);
+    console.log('User email:', user.email);
+    console.log('User role:', user.role);
+    // You can access other user properties as needed
+  } else {
+    console.log('User is not authenticated');
+  }
 
   // API call to the Flask (or Node) server
   async function llmResponse() {

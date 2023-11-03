@@ -131,7 +131,7 @@ export default function AccountForm({ session }: { session: Session | null }) {
             </div>
 
             <div className='my-4 flex justify-center'>
-              <form action="/auth/logout" method="post">
+              <form action="/auth/logout" method="get">
                 <button className="tracking-widest px-4 font-bold py-2 rounded bg-red-500 text-white hover:bg-red-700" type="submit">
                   SIGN OUT
                 </button>
