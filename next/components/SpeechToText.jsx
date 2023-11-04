@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import icons from "@/icons";
 import { emit } from "process";
+import axios from 'axios'
+
 
 const { MicIcon, SpeakerIcon } = icons;
 
@@ -9,25 +11,33 @@ const SpeechToText = () => {
   const [transcript, setTranscript] = useState("");
   const [revealedText, setRevealedText] = useState("");
   const [reply, setReply] = useState("");
-  const [isSpeaking, setIsSpeaking] = useState("");
+
+  const audioRef = useRef(null);
+  const [url, setUrl] = useState("");
+
+  const playAudio = () => {
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  };
 
   // Animated GIF for MIC isListening state
   const gifUrl = "https://i.imgur.com/cLzMXgm.gif";
 
-  const supabase = createClient(process.env['NEXT_PUBLIC_SUPABASE_URL'], process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']);
+  // const supabase = createClient(process.env['NEXT_PUBLIC_SUPABASE_URL'], process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']);
 
   // Check if the user is authenticated
-  const user = supabase.auth.user();
-  
-  if (user) {
-    console.log('User is authenticated');
-    console.log('User ID:', user.id);
-    console.log('User email:', user.email);
-    console.log('User role:', user.role);
-    // You can access other user properties as needed
-  } else {
-    console.log('User is not authenticated');
-  }
+  // const user = supabase.auth.user();
+
+  // if (user) {
+  //   console.log('User is authenticated');
+  //   console.log('User ID:', user.id);
+  //   console.log('User email:', user.email);
+  //   console.log('User role:', user.role);
+  //   // You can access other user properties as needed
+  // } else {
+  //   console.log('User is not authenticated');
+  // }
 
   // API call to the Flask (or Node) server
   async function llmResponse() {
@@ -42,35 +52,43 @@ const SpeechToText = () => {
     return response;
   }
 
-  function speakText() {
-    if (reply) {
-      setIsSpeaking(true);
-      const utterance = new SpeechSynthesisUtterance(reply);
-      utterance.onend = () => {
-        setIsSpeaking(false);
-      };
-      speechSynthesis.speak(utterance);
-    }
-  }
+  const callAPI = async () => {
+    console.log("init");
+    const options = {
+      headers: {
+        accept: "application/json",
+        "content-type": "application/json",
+        "X-API-KEY": process.env['NEXT_PUBLIC_VOICE_AI_KEY'],
+      },
+    };
+
+    const body = JSON.stringify({
+      speed: 1.25,
+      text: reply,
+      speaker: process.env['NEXT_PUBLIC_SPEAKER_ID'],
+    })
+    const response = await axios.post(process.env['NEXT_PUBLIC_VOICE_AI_URL'],
+      body,
+      options
+    )
+    const responseURL = response.data.data[0].urls[0];
+    console.log(responseURL);
+    setUrl(responseURL);
+  };
 
 
   // Effect for triggering the sound of the AI after the response is received.
   useEffect(() => {
     if (reply) {
-      function speakText() {
-        if (revealedText) {
-          setIsSpeaking(true);
-          const utterance = new SpeechSynthesisUtterance(reply);
-          utterance.onend = () => {
-            setIsSpeaking(false);
-          };
-          speechSynthesis.speak(utterance);
-        }
-      }
-
-      speakText();
+      callAPI();
     }
   }, [reply]);
+
+  useEffect(() => {
+    if(url){
+      playAudio();
+    }
+  }, [url])
 
 
   // Word by word text reveal effect
@@ -173,6 +191,19 @@ const SpeechToText = () => {
             </p>
           )}
         </div>
+
+        {/* Lovo AI Speech */}
+        {/* <button onClick={callAPI}>Call API</button> */}
+        <div id="output">
+          {url ? <div>
+            {/* <button onClick={playAudio}>Play Audio</button> */}
+            <audio className="hidden" ref={audioRef} controls>
+              <source src={url} type="audio/mpeg" />
+              Your browser does not support the audio element.
+            </audio>
+          </div> : null}
+        </div>
+
         <div>
           {reply && (
             <p className="bg-[#FFF7EE] mt-4 p-2 rounded max-w-fit">{reply}</p>
@@ -182,7 +213,7 @@ const SpeechToText = () => {
           {reply && (
             <button
               className="my-3 bg-green-500 text-white p-2 rounded max-w-fit text-2xl"
-              onClick={speakText}
+              onClick={playAudio}
             >
               <SpeakerIcon />
             </button>
