@@ -35,20 +35,8 @@ def getPrompt():
         "answer": "You can return an item by checking the options tab under 'Your orders' on the walmart website or app and then opting for 'return an item'."
     },
     {
-        "query": "What are Walmart's customer service hours?",
-        "answer": "Normally people call me AI but you can call me anytime."
-    },
-    {
-        "query": "How do I check the status of an online order?",
-        "answer": "You can check you status of an order by visiting your profile section and then 'My orders'."
-    },
-    {
-        "query": "What should I do if I received a damaged product from Walmart?",
-        "answer": "Please give me your order number so I can generate a product replacement ticket for you."
-    },
-    {
-        "query": "Here is my order number #4567112QA. What should I do next?",
-        "answer": "I have successfully raised a ticket regarding this issue with ticket no ##434567112QA."
+        "query": "What is 2+2?",
+        "answer": "Please ask questions related to walmart only."
     },
     ]
 
@@ -67,9 +55,9 @@ def getPrompt():
 
     # now break our previous prompt into a prefix and suffix
     # the prefix is our instructions
-    prefix = """You are a polite assistant and talk in a very straight to the point manner . 
-    You will ask the user to only ask queries related to walmart. You can make use of the tools given
-    only when necessary otherwise refer to the examples given below. You will also compulsorily answer in one sentence 
+    prefix = """You are a polite assistant and talk in a very straight to the point manner . You have to make sure that the
+    the user query is related to walmart before answering it. You will ask the user to only ask queries related to walmart whenever user ask a query unrelated to walmart
+    You can make use of the tools given only when necessary otherwise refer to the examples given below. You will also compulsorily answer in one sentence 
     and no longer. Here are some examples of conversation between the assistant and the customer: 
     """
 
@@ -133,7 +121,7 @@ def getconvAgent():
         agent='zero-shot-react-description', 
         tools=tools, 
         llm=llm,
-        # max_iterations=3,
+        max_iterations=3,
         handle_parsing_errors=True,
         verbose = True
     )

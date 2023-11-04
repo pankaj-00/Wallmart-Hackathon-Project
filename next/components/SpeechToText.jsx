@@ -1,20 +1,29 @@
+"use client";
+
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { updateChat, fetchChat, llmResponse } from "@/utils/utils";
 import React, { useState, useEffect, useRef } from "react";
 import icons from "@/icons";
-import { emit } from "process";
 import axios from 'axios'
 
 
 const { MicIcon, SpeakerIcon } = icons;
 
-const SpeechToText = () => {
+const SpeechToText = ({ session }) => {
+
   const [isListening, setIsListening] = useState(false);
-  const [transcript, setTranscript] = useState("");
   const [revealedText, setRevealedText] = useState("");
+  const [transcript, setTranscript] = useState("");
+  const [isSpeaking, setIsSpeaking] = useState("");
   const [reply, setReply] = useState("");
-
-  const audioRef = useRef(null);
+  const [chat, setChat] = useState("");
   const [url, setUrl] = useState("");
-
+  
+  const supabase = createClientComponentClient();
+  const user = session?.user;
+  
+  
+  const audioRef = useRef(null);
   const playAudio = () => {
     if (audioRef.current) {
       audioRef.current.play();
@@ -23,35 +32,34 @@ const SpeechToText = () => {
 
   // Animated GIF for MIC isListening state
   const gifUrl = "https://i.imgur.com/cLzMXgm.gif";
-
-  // const supabase = createClient(process.env['NEXT_PUBLIC_SUPABASE_URL'], process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY']);
-
-  // Check if the user is authenticated
-  // const user = supabase.auth.user();
-
-  // if (user) {
-  //   console.log('User is authenticated');
-  //   console.log('User ID:', user.id);
-  //   console.log('User email:', user.email);
-  //   console.log('User role:', user.role);
-  //   // You can access other user properties as needed
-  // } else {
-  //   console.log('User is not authenticated');
-  // }
-
-  // API call to the Flask (or Node) server
-  async function llmResponse() {
-    const response = await fetch(process.env.NEXT_PUBLIC_FLASK_API_URL, {
-      method: "post",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({ query: transcript }),
-    });
-
-    return response;
+  
+  // listen Function
+  function startListening(){
+    const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
+    
+    if (!SpeechRecognition) {
+      console.error("Speech recognition is not supported in this browser.");
+      return;
+    }
+    
+    const recognition = new SpeechRecognition();
+    recognition.onstart = () => {
+      setIsListening(true);
+    };
+    recognition.onresult = async (event) => {
+      const speechResult = event.results[0][0].transcript;
+      console.log(speechResult);
+      setTranscript(speechResult);
+    };
+    recognition.onend = () => {
+      setIsListening(false);
+    };
+    
+    recognition.start();
   }
 
+  // Lovo API call
   const callAPI = async () => {
     console.log("init");
     const options = {
@@ -76,22 +84,29 @@ const SpeechToText = () => {
     setUrl(responseURL);
   };
 
-
-  // Effect for triggering the sound of the AI after the response is received.
+  // fetching the chat history
   useEffect(() => {
-    if (reply) {
-      callAPI();
+    async function fetchChats() {
+      try {
+        const chatHistory = await fetchChat(user, supabase);
+        setChat(chatHistory);
+        console.log(chatHistory);
+      } catch (error) {
+        alert("Error loading user data!");
+      }
     }
-  }, [reply]);
+    fetchChats();
+  }, []);
 
+  //saving the user chat to database
   useEffect(() => {
-    if(url){
-      playAudio();
+    if (transcript) {
+      const newChat = [...chat, { msg: transcript, sender: "user" }];
+      updateChat(newChat, user, supabase);
     }
-  }, [url])
+  }, [transcript]);
 
-
-  // Word by word text reveal effect
+  // word by word text reveal effect
   useEffect(() => {
     if (transcript) {
       const wordsArray = transcript.split(" ");
@@ -107,14 +122,13 @@ const SpeechToText = () => {
     }
   }, [transcript]);
 
-
-  // Getting the Response from the LLM 
+  // getting the response from the LLM
   useEffect(() => {
     if (!isListening && transcript) {
       async function getResponse() {
         try {
-          const response = await llmResponse();
-          setReply((await response.json()).result);
+          const response = await llmResponse(transcript);
+          setReply(response.data.result);
         } catch (e) {
           console.log("Error in getResponse! \n", e);
         }
@@ -123,34 +137,31 @@ const SpeechToText = () => {
     }
   }, [isListening]);
 
-
-  // Listen Function
-  const startListening = () => {
-    const SpeechRecognition =
-      window.SpeechRecognition || window.webkitSpeechRecognition;
-
-    if (!SpeechRecognition) {
-      console.error("Speech recognition is not supported in this browser.");
-      return;
+  // triggering the sound of the AI after the response is received.
+  useEffect(() => {
+    if (reply) {
+      callAPI();
+      const newChat = [...chat, { sender: "AI", msg: reply }];
+      updateChat(newChat, user, supabase);
     }
+  }, [reply]);
 
-    const recognition = new SpeechRecognition();
-    recognition.onstart = () => {
-      setIsListening(true);
-    };
-    recognition.onresult = (event) => {
-      const speechResult = event.results[0][0].transcript;
-      console.log(speechResult);
-      setTranscript(speechResult);
-    };
-    recognition.onend = () => {
-      setIsListening(false);
-    };
+  // useEffect(() => {
+  //   if (reply) {
+  //     const newChat = [...chat, { sender: "AI", msg: reply }];
+  //     updateChat(newChat);
+  //   }
+  // }, [reply]);
 
-    recognition.start();
-  };
+  useEffect(() => {
+    if(url){
+      playAudio();
+    }
+  }, [url])
 
-  // console.log(reply);
+
+
+  console.log(user.id);
 
   return (
     <div>
@@ -184,7 +195,6 @@ const SpeechToText = () => {
 
       <div className="mt-4 mx-6 flex flex-col ">
         <div className="flex justify-end">
-          {/* <h2 className="text-xl font-semibold mb-2">Transcript:</h2> */}
           {revealedText && (
             <p className="bg-[#D9FDD3] mb-3 p-2 rounded max-w-fit">
               {revealedText}

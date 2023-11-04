@@ -4,10 +4,11 @@ import Popup from "./Popup";
 import icons from "@/icons";
 import styles from './style.module.css';
 import {motion} from 'framer-motion';
+import { Session } from '@supabase/auth-helpers-nextjs'
 
 const { PhoneIcon } = icons;
 
-const Contact: React.FC = () => {
+const Contact = ({ session }: { session: Session | null }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const togglePopup = () => {
@@ -25,7 +26,7 @@ const Contact: React.FC = () => {
         <PhoneIcon className="text-white text-3xl" />
       </motion.button>
       <div className={`${styles.popup_container} ${showPopup ? styles.active : ""}`}>
-        <Popup showPopup={showPopup} togglePopup={togglePopup} />
+        <Popup showPopup={showPopup} togglePopup={togglePopup} session = {session} />
       </div>
     </div>
   );
