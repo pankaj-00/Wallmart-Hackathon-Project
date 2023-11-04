@@ -4,7 +4,7 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import icons from "../icons";
 import Link from "next/link";
-import { Database } from "../@types/supabase";
+import { Database } from "../types/supabase";
 import { Session, createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 const Navbar = ({ session }: { session: Session | null }) => {

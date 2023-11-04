@@ -2,15 +2,17 @@ import React from "react";
 import icons from "@/icons";
 import SpeechToText from "./SpeechToText";
 import { motion, AnimatePresence } from "framer-motion";
+import { Session } from '@supabase/auth-helpers-nextjs'
 
 const { CloseIcon, PhoneIcon } = icons;
 
 interface PopupProps {
   showPopup: boolean;
   togglePopup: () => void;
+  session: Session | null ;
 }
 
-const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup }) => {
+const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup, session }) => {
   return (
     <div>
       <AnimatePresence>
@@ -35,7 +37,7 @@ const Popup: React.FC<PopupProps> = ({ showPopup, togglePopup }) => {
                   TALK WITH US
                 </h2>
               </div>
-              <SpeechToText />
+              <SpeechToText session = {session}/>
             </motion.div>
           </div>
         )}
