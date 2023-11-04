@@ -24,11 +24,11 @@ const CategoryCard = ({ name, bgImage, bgColor }: CategoryCardProps) => {
 
 const Categories = () => {
   return (
-    <div className="flex flex-col gap-8 items-center w-[80%]">
+    <div className="flex flex-col gap-8 items-center w-[80%] flex-wrap">
       <span className="text-2xl font-normal tracking-widest mb-6">
         CATEGORIES
       </span>
-      <div className="flex justify-between w-full">
+      <div className="flex justify-center w-full">
         {categoryData.map((category, index) => {
           const { name, bgColor, bgImage } = category;
           return (

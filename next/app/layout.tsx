@@ -1,9 +1,10 @@
+import { cn } from "@/lib/utils";
 import "./globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Montserrat } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 
-const inter = Inter({ subsets: ["latin"] });
+const montserrat = Montserrat({ subsets: ["latin"], variable: "--montserrat" });
 
 export const metadata: Metadata = {
   title: "ConvAI",
@@ -16,7 +17,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
+      <body className={cn(
+          "min-h-screen montserrat antialiased",
+          montserrat.variable
+        )}>
         <NextTopLoader/>
         <main>{children}</main>
       </body>

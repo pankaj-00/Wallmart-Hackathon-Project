@@ -18,7 +18,7 @@ export default async function Home() {
       data: { session },
     } = await supabase.auth.getSession();
     return (
-      <main className="flex min-h-screen flex-col items-center gap-y-20">
+      <main className="flex min-h-screen flex-col items-center md:gap-y-20 gap-y-5 max-w-screen overflow-x-hidden">
         <Navbar session={session as Session} />
         <Categories />
         <TopProducts />
