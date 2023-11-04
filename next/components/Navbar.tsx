@@ -45,7 +45,7 @@ const Navbar = ({ session }: { session: Session | null }) => {
     <nav className="flex w-full justify-center items-center py-8">
       <div className="flex justify-between w-[90%] gap-12 items-center">
         <Link href="/">
-          <Image src="/tempLogo.png" alt="logo" width={75} height={75} />
+          <Image src="/convAI_logo.png" alt="logo" width={75} height={75} />
         </Link>
         <div className="flex items-center gap-4 cursor-pointer">
           <span className="text-[26px] font-normal">Categories </span>
