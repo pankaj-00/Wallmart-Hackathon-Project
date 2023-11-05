@@ -4,25 +4,23 @@ import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import { updateChat, fetchChat, llmResponse } from "@/utils/utils";
 import React, { useState, useEffect, useRef } from "react";
 import icons from "@/icons";
-import axios from 'axios'
-
+import axios from "axios";
+import ChatMsg from "./ChatMsg";
 
 const { MicIcon, SpeakerIcon } = icons;
 
 const SpeechToText = ({ session }) => {
-
   const [isListening, setIsListening] = useState(false);
   const [revealedText, setRevealedText] = useState("");
   const [transcript, setTranscript] = useState("");
   const [isSpeaking, setIsSpeaking] = useState("");
   const [reply, setReply] = useState("");
-  const [chat, setChat] = useState("");
+  const [chat, setChat] = useState([]);
   const [url, setUrl] = useState("");
-  
+
   const supabase = createClientComponentClient();
   const user = session?.user;
-  
-  
+
   const audioRef = useRef(null);
   const playAudio = () => {
     if (audioRef.current) {
@@ -30,19 +28,30 @@ const SpeechToText = ({ session }) => {
     }
   };
 
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const container = containerRef.current;
+
+    // Set the scrollTop property to its maximum value
+    if (container) {
+      container.scrollTop = container.scrollHeight;
+    }
+  }, []);
+
   // Animated GIF for MIC isListening state
   const gifUrl = "https://i.imgur.com/cLzMXgm.gif";
-  
+
   // listen Function
-  function startListening(){
+  function startListening() {
     const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
-    
+      window.SpeechRecognition || window.webkitSpeechRecognition;
+
     if (!SpeechRecognition) {
       console.error("Speech recognition is not supported in this browser.");
       return;
     }
-    
+
     const recognition = new SpeechRecognition();
     recognition.onstart = () => {
       setIsListening(true);
@@ -55,7 +64,7 @@ const SpeechToText = ({ session }) => {
     recognition.onend = () => {
       setIsListening(false);
     };
-    
+
     recognition.start();
   }
 
@@ -66,19 +75,20 @@ const SpeechToText = ({ session }) => {
       headers: {
         accept: "application/json",
         "content-type": "application/json",
-        "X-API-KEY": process.env['NEXT_PUBLIC_VOICE_AI_KEY'],
+        "X-API-KEY": process.env["NEXT_PUBLIC_VOICE_AI_KEY"],
       },
     };
 
     const body = JSON.stringify({
       speed: 1.25,
       text: reply,
-      speaker: process.env['NEXT_PUBLIC_SPEAKER_ID'],
-    })
-    const response = await axios.post(process.env['NEXT_PUBLIC_VOICE_AI_URL'],
+      speaker: process.env["NEXT_PUBLIC_SPEAKER_ID"],
+    });
+    const response = await axios.post(
+      process.env["NEXT_PUBLIC_VOICE_AI_URL"],
       body,
       options
-    )
+    );
     const responseURL = response.data.data[0].urls[0];
     console.log(responseURL);
     setUrl(responseURL);
@@ -102,6 +112,7 @@ const SpeechToText = ({ session }) => {
   useEffect(() => {
     if (transcript) {
       const newChat = [...chat, { msg: transcript, sender: "user" }];
+      setChat(newChat);
       updateChat(newChat, user, supabase);
     }
   }, [transcript]);
@@ -137,11 +148,12 @@ const SpeechToText = ({ session }) => {
     }
   }, [isListening]);
 
-  // triggering the sound of the AI after the response is received.
+  // triggering the voice AI after the response is received and save AI chat.
   useEffect(() => {
     if (reply) {
       callAPI();
       const newChat = [...chat, { sender: "AI", msg: reply }];
+      setChat(newChat);
       updateChat(newChat, user, supabase);
     }
   }, [reply]);
@@ -154,34 +166,24 @@ const SpeechToText = ({ session }) => {
   // }, [reply]);
 
   useEffect(() => {
-    if(url){
+    if (url) {
       playAudio();
     }
-  }, [url])
-
-
+  }, [url]);
 
   console.log(user.id);
 
   return (
-    <div>
-      <div className="container mx-auto p-10 flex flex-col items-center w-full">
+
+    
+
+    <div className="flex flex-row border max-h-[400px]">
+      <div className="w-1/3 p-10 flex justify-center items-center">
         <div className="flex items-center justify-center">
-          {isListening ? (
-            <img
-              src={gifUrl}
-              alt="Playing GIF"
-              style={{
-                width: "200px",
-              }}
-            />
-          ) : null}
+          {isListening ? <img src={gifUrl} alt="Playing GIF" /> : null}
         </div>
         {!isListening && (
-          <div
-            className="flex items-center justify-center"
-            style={{ height: "200px" }}
-          >
+          <div className="flex items-center justify-center">
             <button
               className={`p-4 rounded-full transition-transform duration-200 bg-blue-500 text-white`}
               onClick={startListening}
@@ -193,32 +195,38 @@ const SpeechToText = ({ session }) => {
         )}
       </div>
 
-      <div className="mt-4 mx-6 flex flex-col ">
-        <div className="flex justify-end">
+      <div className="mt-4 mx-6 w-2/3 overflow-auto flex flex-col" ref={containerRef}>
+        {/* <div className="flex justify-end">
           {revealedText && (
             <p className="bg-[#D9FDD3] mb-3 p-2 rounded max-w-fit">
               {revealedText}
             </p>
           )}
-        </div>
+        </div> */}
+
+        {chat &&
+          chat.map((cht, index) => {
+            return (
+              <div key={index}>
+                <ChatMsg transcript={cht.msg} sender={cht.sender}/>
+              </div>
+            );
+          })}
 
         {/* Lovo AI Speech */}
         {/* <button onClick={callAPI}>Call API</button> */}
         <div id="output">
-          {url ? <div>
-            {/* <button onClick={playAudio}>Play Audio</button> */}
-            <audio className="hidden" ref={audioRef} controls>
-              <source src={url} type="audio/mpeg" />
-              Your browser does not support the audio element.
-            </audio>
-          </div> : null}
+          {url ? (
+            <div>
+              {/* <button onClick={playAudio}>Play Audio</button> */}
+              <audio className="hidden" ref={audioRef} controls>
+                <source src={url} type="audio/mpeg" />
+                Your browser does not support the audio element.
+              </audio>
+            </div>
+          ) : null}
         </div>
 
-        <div>
-          {reply && (
-            <p className="bg-[#FFF7EE] mt-4 p-2 rounded max-w-fit">{reply}</p>
-          )}
-        </div>
         <div className="flex justify-end">
           {reply && (
             <button
