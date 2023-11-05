@@ -149,13 +149,6 @@ const SpeechToText = ({ session }) => {
     }
   }, [reply]);
 
-  // useEffect(() => {
-  //   if (reply) {
-  //     const newChat = [...chat, { sender: "AI", msg: reply }];
-  //     updateChat(newChat);
-  //   }
-  // }, [reply]);
-
   useEffect(() => {
     if(url){
       playAudio();
