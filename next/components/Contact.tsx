@@ -12,7 +12,12 @@ const Contact = ({ session }: { session: Session | null }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const togglePopup = () => {
-    setShowPopup(!showPopup);
+    if(session && session.user){
+      setShowPopup(!showPopup);
+    }
+    else{
+      window.location.href = '/auth/login';
+    }
   };
 
   return (

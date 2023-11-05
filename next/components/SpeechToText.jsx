@@ -110,11 +110,12 @@ const SpeechToText = ({ session }) => {
 
   //saving the user chat to database
   useEffect(() => {
-    if (transcript) {
-      const newChat = [...chat, { msg: transcript, sender: "user" }];
-      setChat(newChat);
-      updateChat(newChat, user, supabase);
-    }
+      if (transcript && user.id) {
+        const newChat = [...chat, { sender: "user", msg: transcript }];
+        setChat(newChat);
+        updateChat(newChat, user, supabase);
+      }
+
   }, [transcript]);
 
   // word by word text reveal effect
@@ -157,13 +158,6 @@ const SpeechToText = ({ session }) => {
       updateChat(newChat, user, supabase);
     }
   }, [reply]);
-
-  // useEffect(() => {
-  //   if (reply) {
-  //     const newChat = [...chat, { sender: "AI", msg: reply }];
-  //     updateChat(newChat);
-  //   }
-  // }, [reply]);
 
   useEffect(() => {
     if (url) {

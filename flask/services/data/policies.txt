@@ -45,11 +45,11 @@ Must be returned within below number of days, with a receipt, to obtain a refund
 
 2 Days
 MAJOR APPLIANCES* (e.g., Full Size Refrigerators, Freezers, Dishwashers, Oven Ranges, Cooktops, Furnaces, Trash Compactors, Wall Ovens, Washing Machine & Dryer Sets, Range Hoods, Washing Machines, Dryers, Ice makers) 
+
 14 Days
-
 Most Wireless Phones
-30 Days
 
+30 Days
 AppleCare+*
 Cooling & Heating (e.g., Air conditioners, Heaters, Air purifiers, Humidifiers, De-humidifiers, Fans, Indoor fireplaces)
 Consumer Electronics
@@ -60,21 +60,21 @@ PC Components* (e.g., motherboards, RAM, graphics cards)
 Verizon Postpaid Wireless Phones
 Vacuums & Floorcare (e.g., Vacuum cleaners, Robotic vacuum cleaners, Carpet cleaners, Steam cleaners, Vacuum attachments)
 Walmart Protection Plans*
-60 Days
 
+60 Days
 Contact Lenses
 Hearing Aids
 Prescription Glasses
 Prescription Contacts
-90 Days
 
+90 Days
 Walmart+ Membership (Unless used or activated)
 Home & Garden Equipment* (e.g., lawn mowers, line trimmers, hedge trimmers, chainsaws, pressure washers)
 Tires*
 Photo Prints, Personalized items, and photo products* (e.g., blankets, mugs, calendars)
 Toilets, toilet bowls and urinals*
-365 Days
 
+365 Days
 Perennials, Shrubs, Trees (returned in-store only)
 
 NOTE: Learn how to cancel a Walmart Protection Plan or AppleCare+.
@@ -306,6 +306,9 @@ Walmart reserves the right to limit or decline returns or exchanges regardless o
 
 Walmart also reserves the right to close Walmart.com accounts, or to cancel or refuse orders or returns or refunds for violations or abuse of our returns policy, or any fraudulent activities relating to returns.
 
+
+
+
 -------------------------------------------Price Match Policy-----------------------------------------------------
 Purchases Made in a Walmart U.S. Store
 
@@ -342,6 +345,8 @@ This policy applies to all properties owned or operated by Walmart Inc., or one 
 Manufacturer Coupon Policy
 
 To help our customers save money and live better, we gladly accept valid paper manufacturer coupons issued by manufacturers of products that Walmart sells. These paper manufacturer coupons must scan at the register and must not be expired in accordance with the following guidelines.
+
+
 
 
 ---------------------------------Coupon Guidelines --------------------------------------------
