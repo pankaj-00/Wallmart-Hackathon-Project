@@ -40,7 +40,7 @@ const SpeechToText = ({ session }) => {
   }, []);
 
   // Animated GIF for MIC isListening state
-  const gifUrl = "https://i.imgur.com/cLzMXgm.gif";
+  const gifUrl = "/loading.gif";
 
   // listen Function
   function startListening() {
@@ -171,7 +171,7 @@ const SpeechToText = ({ session }) => {
 
     
 
-    <div className="flex flex-row border max-h-[400px]">
+    <div className="flex flex-row h-[450px]">
       <div className="w-1/3 p-10 flex justify-center items-center">
         <div className="flex items-center justify-center">
           {isListening ? <img src={gifUrl} alt="Playing GIF" /> : null}
