@@ -10,12 +10,3 @@ tasks:
   - name: Setup Next.js
     command: cd next && npm i && npm run dev
     init: true
-
-# Ports to expose on workspace startup
-ports:
-    - port: 3000
-      onOpen: open-preview
-      name: ConvAI
-      description: Website Preview
-      visibility: private
-      protocol: https
