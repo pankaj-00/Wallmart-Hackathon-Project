@@ -1,5 +1,6 @@
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.memory import ConversationBufferMemory
+# from langchain.text_splitter import RecursiveCharacterTextSplitter
+# from langchain.memory import ConversationBufferMemory
+from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import GPT4AllEmbeddings
 from langchain.document_loaders import TextLoader
 from langchain.agents import initialize_agent
@@ -131,7 +132,8 @@ def getconvAgent():
 
 #Instantiation of OpenAI model
 OPEN_AI_API_KEY = os.environ.get('OPEN_AI_API_KEY')
-llm = OpenAI(openai_api_key = OPEN_AI_API_KEY)
+# llm = OpenAI(openai_api_key = OPEN_AI_API_KEY)
+llm = ChatOpenAI(temperature=0, model="gpt-3.5-turbo", openai_api_key = OPEN_AI_API_KEY)
 print("LLM ready!")
 
 #Instantiation of Embeddings
