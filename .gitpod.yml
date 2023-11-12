@@ -3,10 +3,10 @@ image: gitpod/workspace-full
 # Commands that will run on workspace start
 tasks:
   - name: Setup Flask
-    command: cd flask && pip install -r requirement.txt && python server.py
-    init: true
+    init: cd flask && pip install -r requirement.txt
+    command: python server.py
     openMode: split-right
 
   - name: Setup Next.js
-    command: cd next && npm i && npm run dev
-    init: true
+    init: cd next && npm i
+    command: npm run dev
